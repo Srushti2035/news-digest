@@ -1,0 +1,38 @@
+{
+    "version": 2,
+    "rewrites": [
+        {
+            "source": "/api/(.*)",
+            "destination": "/api/index.js"
+        }
+    ],
+    "crons": [
+        {
+            "path": "/api/cron/trigger-digest",
+            "schedule": "0 */1 * * *"
+        }
+    ],
+    "builds": [
+        {
+            "src": "Backend/news-digest-app/server/server.js",
+            "use": "@vercel/node"
+        },
+        {
+            "src": "Frontend/package.json",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "build"
+            }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/api/(.*)",
+            "dest": "/Backend/news-digest-app/server/server.js"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/Frontend/$1"
+        }
+    ]
+}
