@@ -11,7 +11,8 @@ const UserSchema = new mongoose.Schema({
     resetPasswordToken: { type: String },
     resetPasswordExpires: { type: Date },
     scheduleType: { type: String, enum: ['every12', 'custom'], default: 'every12' },
-    customScheduleTimes: { type: [String], default: [] } // Stores hours as ["08", "18"]
+    customScheduleTimes: { type: [String], default: [] }, // Stores hours as ["08", "18"]
+    lastDigestSentAt: { type: Date } // For rate limiting "Send Now"
 });
 
 module.exports = mongoose.model('User', UserSchema);

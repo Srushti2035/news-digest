@@ -12,6 +12,7 @@ const Dashboard = () => {
     const [loading, setLoading] = useState(false);
     const [articles, setArticles] = useState([]);
     const [loadingNews, setLoadingNews] = useState(false);
+    const [notification, setNotification] = useState(null);
     const navigate = useNavigate();
 
     const fetchProfile = useCallback(async () => {
@@ -83,13 +84,22 @@ const Dashboard = () => {
         }
     };
 
+    // Clear notification after 3 seconds
+    useEffect(() => {
+        if (notification) {
+            const timer = setTimeout(() => setNotification(null), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [notification]);
+
     const triggerManualMail = async () => {
         setLoading(true);
         try {
-            await sendNow();
-            alert("Digest Sent Successfully! Check your inbox.");
+            const { data } = await sendNow();
+            setNotification({ type: 'success', message: data.message });
         } catch (error) {
-            alert("Failed to send digest.");
+            const errorMsg = error.response?.data?.message || "Failed to send digest.";
+            setNotification({ type: 'error', message: errorMsg });
         } finally {
             setLoading(false);
         }
@@ -108,6 +118,13 @@ const Dashboard = () => {
 
     return (
         <div className="min-h-screen w-full relative bg-gray-900 text-white overflow-hidden">
+            {/* Notification Toast */}
+            {notification && (
+                <div className={`fixed top-5 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-full shadow-2xl flex items-center gap-2 transition-all duration-300 ${notification.type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>
+                    {notification.type === 'success' ? '🚀' : '⚠️'} <span className="font-semibold">{notification.message}</span>
+                </div>
+            )}
+
             {/* Background Image Container */}
             <div
                 className="absolute inset-0 z-0 opacity-40"

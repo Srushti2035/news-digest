@@ -38,8 +38,38 @@ router.patch('/update-preferences', auth, async (req, res) => {
 
 // Manual Trigger: Send Now
 router.post('/send-now', auth, async (req, res) => {
-    await generateDigest(req.user.userId);
-    res.json({ message: "Digest sent successfully!" });
+    try {
+        const user = await User.findById(req.user.userId);
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        if (user.topics.length === 0) {
+            return res.status(400).json({ message: "Please add at least one topic first!" });
+        }
+
+        // Rate Limiting: 2 minutes
+        const COOLDOWN_MINUTES = 2;
+        if (user.lastDigestSentAt) {
+            const timeDiff = Date.now() - new Date(user.lastDigestSentAt).getTime();
+            const minutesPassed = timeDiff / (1000 * 60);
+
+            if (minutesPassed < COOLDOWN_MINUTES) {
+                return res.status(429).json({
+                    message: `Already sent! Please wait ${Math.ceil(COOLDOWN_MINUTES - minutesPassed)} minute(s) before sending again.`
+                });
+            }
+        }
+
+        await generateDigest(req.user.userId);
+
+        // Update timestamp
+        user.lastDigestSentAt = new Date();
+        await user.save();
+
+        res.json({ message: "Digest Sent Successfully! Check your inbox." });
+    } catch (error) {
+        console.error("Send Now Error:", error);
+        res.status(500).json({ message: "Failed to send digest." });
+    }
 });
 
 // News Preview Route
