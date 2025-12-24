@@ -48,7 +48,8 @@ router.post('/forgot-password', async (req, res) => {
         user.resetPasswordExpires = resetPasswordExpires;
         await user.save();
 
-        const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
+        const frontendUrl = process.env.FRONTEND_URL || 'https://news-digest-beta.vercel.app';
+        const resetUrl = `${frontendUrl}/reset-password/${resetToken}`;
         console.log("Debug: Attempting to send email to", user.email);
         const emailSent = await sendResetPasswordEmail(user.email, resetUrl);
         console.log("Debug: Email Sent Result in Route:", emailSent);
