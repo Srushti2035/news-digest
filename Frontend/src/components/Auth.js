@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { login, register, forgotPassword } from '../api';
 import { useNavigate } from 'react-router-dom';
 import bannerImage from '../assets/banner-image.jpg'; // Import the image
-import { Mail, Lock, ArrowRight, UserPlus, LogIn, User } from 'lucide-react'; // Import icons
+import { Mail, Lock, ArrowRight, UserPlus, LogIn, User, Eye, EyeOff } from 'lucide-react'; // Import icons
 
 const Auth = ({ isLogin }) => {
     const [formData, setFormData] = useState({ name: '', email: '', password: '' });
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [showForgot, setShowForgot] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const [message, setMessage] = useState('');
 
     const handleSubmit = async (e) => {
@@ -91,12 +92,19 @@ const Auth = ({ isLogin }) => {
                                 <div className="relative group">
                                     <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-blue-400 transition-colors" size={20} />
                                     <input
-                                        type="password"
+                                        type={showPassword ? "text" : "password"}
                                         placeholder="Password"
                                         required
-                                        className="w-full pl-10 pr-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                                        className="w-full pl-10 pr-12 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
                                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                                     />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white focus:outline-none transition-colors"
+                                    >
+                                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                    </button>
                                 </div>
                             )}
                         </div>
