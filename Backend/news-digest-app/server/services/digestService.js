@@ -10,8 +10,8 @@ const apiKey = defaultClient.authentications['api-key'];
 apiKey.apiKey = process.env.BREVO_API_KEY;
 const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 
-// const DASHBOARD_URL = 'https://your-production-domain.com/dashboard'; // TODO: Update for production
-const DASHBOARD_URL = 'http://localhost:3000/dashboard';
+const DASHBOARD_URL = 'https://news-digest-beta.vercel.app/dashboard'; // TODO: Update for production
+// const DASHBOARD_URL = 'http://localhost:3000/dashboard';
 
 const filterGoodNews = (articles) => {
     return articles.filter(article => {
