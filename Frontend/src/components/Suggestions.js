@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getSuggestions } from '../api';
-import { Sparkles, ArrowRight, ExternalLink, RefreshCw, PlusCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Sparkles, ExternalLink, RefreshCw, PlusCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Suggestions = ({ onAddTopic }) => {
     const [suggestions, setSuggestions] = useState([]);

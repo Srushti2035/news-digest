@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { getProfile, updatePreferences, sendNow, getNewsPreview } from '../api';
 import NewsFeed from './NewsFeed';
 import Suggestions from './Suggestions';
-import { Newspaper, Bell, LogOut, Plus, Trash2, Send, Save, Check, User, RefreshCw, Clock } from 'lucide-react';
+import { Newspaper, Bell, LogOut, Plus, Trash2, Send, User, RefreshCw, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import bannerImage from '../assets/banner-image.jpg';
 
