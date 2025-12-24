@@ -256,69 +256,34 @@ const Dashboard = () => {
                             {/* Schedule Settings */}
                             {user.isSubscribed && (
                                 <div className="mt-6 border-t border-white/5 pt-4">
-                                    <h3 className="text-sm font-bold text-gray-300 mb-3 flex items-center gap-2">
+                                    <h3 className="text-sm font-bold text-gray-300 mb-2 flex items-center gap-2">
                                         <Clock size={16} /> Delivery Schedule
                                     </h3>
-
-                                    <div className="flex bg-gray-900/50 p-1 rounded-xl mb-4 border border-white/5">
-                                        <button
-                                            onClick={() => handleUpdate({ scheduleType: 'every12' })}
-                                            className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${user.scheduleType !== 'custom' ? 'bg-indigo-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}
+                                    <div className="bg-gray-800/50 p-4 rounded-xl border border-white/5">
+                                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                                            Preferred Time (UTC)
+                                        </label>
+                                        <select
+                                            value={user.customScheduleTimes?.[0] || "12"}
+                                            onChange={(e) => {
+                                                const time = e.target.value;
+                                                // Save as "custom" type with this specific time
+                                                handleUpdate({
+                                                    scheduleType: 'custom',
+                                                    customScheduleTimes: [time]
+                                                });
+                                            }}
+                                            className="w-full bg-gray-900 text-white text-sm rounded-lg border border-white/10 px-3 py-2 outline-none focus:border-indigo-500 transition-colors"
                                         >
-                                            Every 12 Hours
-                                        </button>
-                                        <button
-                                            onClick={() => handleUpdate({ scheduleType: 'custom' })}
-                                            className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${user.scheduleType === 'custom' ? 'bg-indigo-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'}`}
-                                        >
-                                            Custom Time
-                                        </button>
+                                            {Array.from({ length: 24 }).map((_, i) => {
+                                                const hour = String(i).padStart(2, '0');
+                                                return <option key={hour} value={hour}>{hour}:00</option>;
+                                            })}
+                                        </select>
+                                        <p className="text-xs text-gray-500 mt-2">
+                                            Select the hour you want to receive your daily digest once per day.
+                                        </p>
                                     </div>
-
-                                    {user.scheduleType === 'custom' && (
-                                        <div className="animate-in fade-in slide-in-from-top-2 duration-300">
-                                            <div className="flex flex-wrap gap-2 mb-3">
-                                                {(user.customScheduleTimes || []).map((time) => (
-                                                    <span key={time} className="px-3 py-1 bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 rounded-full text-xs font-bold flex items-center gap-2">
-                                                        {time}:00
-                                                        <button
-                                                            onClick={() => {
-                                                                const newTimes = user.customScheduleTimes.filter(t => t !== time);
-                                                                handleUpdate({ customScheduleTimes: newTimes });
-                                                            }}
-                                                            className="hover:text-white"
-                                                        >
-                                                            &times;
-                                                        </button>
-                                                    </span>
-                                                ))}
-                                            </div>
-
-                                            <div className="flex gap-2">
-                                                <select
-                                                    className="flex-1 bg-gray-800 text-white text-sm rounded-lg border border-white/10 px-3 py-2 outline-none focus:border-indigo-500"
-                                                    onChange={(e) => {
-                                                        const time = e.target.value;
-                                                        if (time && (!user.customScheduleTimes || !user.customScheduleTimes.includes(time))) {
-                                                            const newTimes = [...(user.customScheduleTimes || []), time].sort();
-                                                            handleUpdate({ customScheduleTimes: newTimes });
-                                                            e.target.value = ""; // Reset
-                                                        }
-                                                    }}
-                                                    defaultValue=""
-                                                >
-                                                    <option value="" disabled>Add a time...</option>
-                                                    {Array.from({ length: 24 }).map((_, i) => {
-                                                        const hour = String(i).padStart(2, '0');
-                                                        return <option key={hour} value={hour}>{hour}:00</option>;
-                                                    })}
-                                                </select>
-                                            </div>
-                                            <p className="text-xs text-gray-500 mt-2">
-                                                Select hours (Server Time) when you want to receive digests.
-                                            </p>
-                                        </div>
-                                    )}
                                 </div>
                             )}
 

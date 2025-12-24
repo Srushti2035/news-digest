@@ -10,24 +10,15 @@ const runScheduledCheck = async (forceHour = null) => {
     const users = await User.find({ isSubscribed: true });
 
     for (const user of users) {
-        let shouldSend = false;
-
-        if (user.scheduleType === 'custom') {
-            if (user.customScheduleTimes && user.customScheduleTimes.includes(hourString)) {
-                shouldSend = true;
-            }
-        } else {
-            // Default 'every12': Send at 8 AM and 8 PM (08 and 20) or 00 and 12?
-            // Original was 0 */12 * * * which is 00:00 and 12:00.
-            if (currentHour === 0 || currentHour === 12) {
-                shouldSend = true;
+        // If user has a custom schedule, check if it matches current hour
+        if (user.scheduleType === 'custom' && user.customScheduleTimes && user.customScheduleTimes.length > 0) {
+            if (!user.customScheduleTimes.includes(hourString)) {
+                continue; // Skip if it's not their time
             }
         }
 
-        if (shouldSend) {
-            console.log(`Sending digest to ${user.email}`);
-            await generateDigest(user._id);
-        }
+        console.log(`Sending digest to ${user.email}`);
+        await generateDigest(user._id);
     }
 };
 

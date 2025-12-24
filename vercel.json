@@ -3,13 +3,13 @@
     "rewrites": [
         {
             "source": "/api/(.*)",
-            "destination": "/api/index.js"
+            "destination": "/Backend/news-digest-app/server/server.js"
         }
     ],
     "crons": [
         {
             "path": "/api/cron/trigger-digest",
-            "schedule": "0 */1 * * *"
+            "schedule": "0 12 * * *"
         }
     ],
     "builds": [
@@ -23,16 +23,6 @@
             "config": {
                 "distDir": "build"
             }
-        }
-    ],
-    "routes": [
-        {
-            "src": "/api/(.*)",
-            "dest": "/Backend/news-digest-app/server/server.js"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/Frontend/$1"
         }
     ]
 }
