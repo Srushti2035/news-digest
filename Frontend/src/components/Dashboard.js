@@ -277,28 +277,11 @@ const Dashboard = () => {
                                         <Clock size={16} /> Delivery Schedule
                                     </h3>
                                     <div className="bg-gray-800/50 p-4 rounded-xl border border-white/5">
-                                        <label className="block text-sm font-medium text-gray-300 mb-2">
-                                            Preferred Time (UTC)
-                                        </label>
-                                        <select
-                                            value={user.customScheduleTimes?.[0] || "12"}
-                                            onChange={(e) => {
-                                                const time = e.target.value;
-                                                // Save as "custom" type with this specific time
-                                                handleUpdate({
-                                                    scheduleType: 'custom',
-                                                    customScheduleTimes: [time]
-                                                });
-                                            }}
-                                            className="w-full bg-gray-900 text-white text-sm rounded-lg border border-white/10 px-3 py-2 outline-none focus:border-indigo-500 transition-colors"
-                                        >
-                                            {Array.from({ length: 24 }).map((_, i) => {
-                                                const hour = String(i).padStart(2, '0');
-                                                return <option key={hour} value={hour}>{hour}:00</option>;
-                                            })}
-                                        </select>
-                                        <p className="text-xs text-gray-500 mt-2">
-                                            Select the hour you want to receive your daily digest once per day.
+                                        <p className="text-gray-200 font-medium">
+                                            Daily at 12:00 PM UTC
+                                        </p>
+                                        <p className="text-xs text-gray-500 mt-1">
+                                            You will receive your digest automatically every day at this time.
                                         </p>
                                     </div>
                                 </div>

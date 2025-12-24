@@ -9,14 +9,13 @@ const runScheduledCheck = async (forceHour = null) => {
 
     const users = await User.find({ isSubscribed: true });
 
-    for (const user of users) {
-        // If user has a custom schedule, check if it matches current hour
-        if (user.scheduleType === 'custom' && user.customScheduleTimes && user.customScheduleTimes.length > 0) {
-            if (!user.customScheduleTimes.includes(hourString)) {
-                continue; // Skip if it's not their time
-            }
-        }
+    if (users.length === 0) {
+        console.log('No subscribed users found.');
+        return;
+    }
 
+    // Send to ALL subscribed users (Since Vercel triggers this once daily at 12:00 PM)
+    for (const user of users) {
         console.log(`Sending digest to ${user.email}`);
         await generateDigest(user._id);
     }
