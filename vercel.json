@@ -25,8 +25,16 @@
             "dest": "/Backend/news-digest-app/server/server.js"
         },
         {
-            "src": "/(.*)",
-            "dest": "/Frontend/$1"
+            "src": "/",
+            "dest": "/Frontend/index.html"
+        },
+        {
+            "src": "/static/(.*)",
+            "dest": "/Frontend/static/$1"
+        },
+        {
+            "src": "/(.*).(png|jpg|jpeg|gif|ico|json|js|css)",
+            "dest": "/Frontend/$1.$2"
         },
         {
             "handle": "filesystem"
