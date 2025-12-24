@@ -1,11 +1,5 @@
 {
     "version": 2,
-    "rewrites": [
-        {
-            "source": "/api/(.*)",
-            "destination": "/Backend/news-digest-app/server/server.js"
-        }
-    ],
     "crons": [
         {
             "path": "/api/cron/trigger-digest",
@@ -23,6 +17,19 @@
             "config": {
                 "distDir": "build"
             }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/api/(.*)",
+            "dest": "/Backend/news-digest-app/server/server.js"
+        },
+        {
+            "handle": "filesystem"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/Frontend/index.html"
         }
     ]
 }
