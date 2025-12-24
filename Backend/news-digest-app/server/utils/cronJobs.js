@@ -14,7 +14,7 @@ const runScheduledCheck = async (forceHour = null) => {
         return;
     }
 
-    // Send to ALL subscribed users (Since Vercel triggers this once daily at 12:00 PM)
+    // Send to ALL subscribed users (Since Vercel triggers this once daily at 5:30 PM)
     for (const user of users) {
         console.log(`Sending digest to ${user.email}`);
         await generateDigest(user._id);

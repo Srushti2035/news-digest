@@ -278,7 +278,7 @@ const Dashboard = () => {
                                     </h3>
                                     <div className="bg-gray-800/50 p-4 rounded-xl border border-white/5">
                                         <p className="text-gray-200 font-medium">
-                                            Daily at 12:00 PM UTC
+                                            Daily at 5:30 PM (IST)
                                         </p>
                                         <p className="text-xs text-gray-500 mt-1">
                                             You will receive your digest automatically every day at this time.
